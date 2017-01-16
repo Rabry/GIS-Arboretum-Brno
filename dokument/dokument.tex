@@ -1,0 +1,430 @@
+\pdfoutput=1
+\documentclass[12pt]{article}%
+\usepackage[utf8]{inputenc} % pouľito v případě jiného kódování
+% aktuální kódování: ISO Latin 2 (ISO 8859-2)
+\usepackage{czech, dipp8}
+\usepackage[usenames,dvipsnames]{color}
+%\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+
+\begin{document}
+
+%brava pro pozadi boxu urceneho pro prikazy
+\definecolor{light-gray}{gray}{0.95}
+
+\def\,{\penalty10000\hskip.25em}
+\pagestyle{headings}
+
+\cislovat{2}
+\bakalarska
+
+\titul{Tvorba geografického informačního systému arboreta MENDELU}
+{Bc. David Ruber}{Ing. David Procházka, Ph.D.}{Brno 2014}
+
+\newpage
+Zde prostor pro zadání práce
+\newpage
+
+\podekovani{Rád bych poděkoval svému vedoucímu práce Davidu Procházkovi za ochotu, odborné
+konzultace v rámci této práce.}
+
+\prohlasenimuz{V~Brně dne \today}
+
+\abstract{Bc. Ruber, D. Creating a geographic information system of MENDELU arboretum.
+Diploma thesis. Brno: MENDELU, 2016}
+{abstrakt}
+\\
+\\
+{{\noindent{\sffamily\bfseries Keywords}}
+\\
+{klicova slova}
+
+\abstrakt{Bc. Ruber, D. Tvorba geografického informačního systému arboreta MENDELU. Diplomová práce.
+Brno: MENDELU, 2016}
+{abstrakt}
+\\
+\\
+{{\noindent{\sffamily\bfseries Klíčová slova}}
+\\
+{klicova slova}
+
+\cislovat{3}
+\obsah
+
+
+\kapitola{Úvod a~cíl práce}
+\sekce{Úvod}
+
+
+\sekce{Cíl práce}
+
+%predstaveni dostupneho sw
+\kapitola{Dostupný software}
+%popis djanga
+%https://www.djangoproject.com/
+%http://www.djangoproject.cz/
+\sekce{Django}
+Django je webový framework napsaný v~jazyce Python. Byl vyvinut aby pomohl vývojářům urychlit 
+vývoj aplikací od~základního konceptu až po finální dokončení. K~těmto účelům poslouží jak oficiální 
+návod krok po~kroku, ve~kterém jsou popsány všechny základní kroky, tak i~volně dostupná 
+dokumentace obsahující všechny specifika. Django obsahuje velké množství již kompletně připravených 
+modulů, které lze využít, jako jsou například autentizace uživatelů, mapu stránek, RSS kanál a~další. 
+Ověřování uživatelů je jedním z~bezpečnostních prvků, které usnadňují práci vývojářům. Mezi další
+bezpečností prvky patří SQL injection\footnote{SQL injection je technika napadení databázové vrstvy 
+prostřednictvím neošetřeného vstupu.}, cross-site scripting\footnote{Metoda využívající bezpečnostní 
+chyby ve skriptech a~vložení vlastních skriptů.}, cross-site request forgery\footnote{Metoda 
+pracující na~bázi nezamýšleného požadavku pro~vykonání určité akce.} a clickjacking\footnote{Způsob 
+útoku kdy uživatel spustí akci, kterou nepředpokládal.}. Dajngo využívá architekturu "sdílené nic", 
+což znamená že~každý uzel je soběstačný a~nezávislý. Přesněji žádný z~uzlů nesdílí pamět nebo 
+diskové úložiště. Framework odděluje jednotlivé komponenty (datábazovou vrstvu, aplikační vrstvu 
+atd.).
+%popis geo djanga
+%https://docs.djangoproject.com/el/1.10/ref/contrib/gis/
+\podsekce{GeoDjango}
+GeoDjango je samostatný modul pro Django, který obsahuje geografické rozšíření pro~webové aplikace. 
+Modul usiluje o~to, aby byl, stejně jako samostatný Django framework, co nejvíce jednochý pro 
+vývojáře. Obsahuje vlastní modelá pole pro OGC\footnote{Open Geospatial Consortium je mezinárodní 
+standartizační organizace.} geometrii a~rastrová data. Rozšiřuje Django ORM\footnote{Objektově 
+relační zobrazení je programovací technika zajišťující konverzi dat mezi relační databází 
+a~objektově orientovaným pragramovacím jazykem} pro potřeby geografických požadavků a~prostorových 
+dat. Python rozhraní pro geometrii, rastrové operace a~práci s~daty v různých formátech je na 
+vysoké úrovni.
+
+%popis google maps
+%https://www.google.com/maps/about/
+%https://developers.google.com/maps/documentation/api-picker
+\sekce{Google Maps}
+Nejznámější mapovou službou jsou bezpochyby Google Maps. První verze Google Maps API vzinkla 
+v roce 2005. API není jen JavaScript pro koncového uživatele, zahrnuje více projektů. Nabízí 
+několik různých způsobů jak službu vložit do webových stránek s hodně možnostmi přizpůsobení. 
+Dostupné API služby zahrnují například Google Maps API Javascript, Google Static Maps API, Google 
+Maps SDK pro iOS nebo Google Maps pro Android. Základní APi jsou zdrama, ale platí určitá omezení. 
+Prvním je, že mapy musí být volně a veřejně přístupné. Druhým je omezení využití, které omezuje to, 
+aby web negeneroval více než povolené denní množství map. Existuje i placené řešení API.
+
+%popis leafletu
+%http://leafletjs.com/
+\sekce{Leaflet}
+Leaflet je nejrozšířenější open-source knihovna v~jazyce JavaScript pro tvorbu interaktivních map. 
+Obsahuje většinu potřebných mapových funkcí, jako například:
+\begin{itemize}
+\item podkladové mapy, WMS\footnote{Web Map Service je otevřený standart pro~sdílení geografických 
+informací.}
+\item vektorové vrstvy: polygony, linie atd.
+\item mapové značky
+\item GeoJSON
+\end{itemize}
+Knihovna obsahuje již naimplementované prvky pro~ovládání mapy, mezi které patří gesta prsty nebo 
+dvojité kliknutí myši pro příblížení, ovládání skrze klávesnici (pohyb pomocí šipek), nebo 
+připravené ovládací panely zobrazené přímo v~mapě. Leaflet je navržen tak, aby byl jednoduchý, 
+výkonný a~použitelný. Jeho hlavním kladem je funkčnost skrze všechny internetové prohlížeče 
+stolních počítačů i mobilních zařízení. Samotné jádro knihovny klade důraz na jednoduchost, 
+výkonnost a použitelnost.
+
+%popis openlayers
+%https://openlayers.org/
+\sekce{OpenLayers}
+OpenLayers je stejně jako Leaflet jedna z~nejrozšířenějších open-source JavaScript knihoven pro 
+dynamické mapy umístěné na webových stránkách. Byl vyvinut společností MetaCraft jako ekvivalent 
+ke~Google Maps. Umožňuje zobrazovat podkladové mapy, vektorová data, mapové značky a~další. 
+Podkladové mapy je možnénačíst z mnoha zdrojů, např: OSM, Bing, MapBox. Stejně tak jsou 
+podporovány OGC mapové služby. OpenLayers umožňuje i~vykreslení vektorových vrstev GeoJSON, KML, 
+GML a~dalších formátů.
+
+\sekce{Srovnání Leaflet a OpenLayers}
+Porovnat Leaflet s OpenLayers je v celku jednoduché. Leaflet je zaměřen na jednoduchost a proto 
+jeho použití je jednodušší. Je správným řešením pro jednoduché bežné mapové úkoly jako je zobrazení 
+mapových podkladů a částí, posouvání mapy nebo zoomování. Celkové API je na vyšší úrovní, což 
+znamená méně kódu a je jednodušší na pochopení, není tak rozsáhlé jako u OpenLayers. Openlayers 
+nabízí více funkcí ovšem za cenu většího množství kódu, nutnosti inicializace a nastavení mapy. 
+API je na nižší úrovní a proto je težší na pochopení a naučení se potřeb pro použití.
+Díky inicializaci je dosáhnuta vyšší kontrola nad mapou a daty. V rámci kontroly je dobře zvládnuta 
+podpora editace. Leaflet nabízí méně funkcí, ale existuje mnoho plug-in\footnote{Plug-in je 
+zásuvný modul, který doplňuje aplikaci.}, které chybějící prvky doplní.
+
+\sekce{PHP Brick\textbackslash Geo}
+
+%popis crowdfundingu
+%https://www.fundable.com/learn/resources/guides/crowdfunding-guide/what-is-crowdfunding
+\kapitola{Crowdfunding}
+Crowdfunding je způsob získávání pěnez na~projekt formou veřejné sbírky. Nejedná se o~tradiční 
+přístup k~financování podnikatelské činnosti. Většinou je nutné provést průzkum trhu, nastavit 
+svůj podnikatelský plán vytvořit prototyp a~následně produkt propagovat před investory. Zdroje 
+financování jsou pak banky, investoři, nebo společnosti poskytující kapitál. Ve výsledku podobným 
+přístupem je na konci omezené množství investorů. Crowdfunding tvoří přesný opak, na konci lze mít 
+velké množství investorů. Pro získání peněz postačí vytvořit profil produktu na jedné z~mnoho 
+webových stránek, nabídnout za příspěvek například první vyrobený kus, oficiální uvedení 
+přispěvatele nebo jiné bonusy a~potom jen čekat na příspěvky, dokud není naplněn základní kapitál.
+\sekce{Výhody crowdfundingu}
+Existuje mnoho výhod oproti tradičním metodám, uvedené jsou jen některé z nich. Při použití 
+crowdfunding platformy je získán přístup k tisícům akreditovaných investorů, kteří mohou 
+komunikovat a dále předávat prezentovaný produkt. Vytvoření prezentace pomůže mapování historie 
+vývoje produktu, jeho statistik z pohledu úspěšnosti a hlavně jako zpětná vazba od obyčejných 
+lidí(investorů), kteří mohou vyjádřti svůj názor a tím přispět k novým vylepšením. Přístup 
+získáva na~popularitě zejména díky sociálním sítím, na kterých se projekty mohou snadno šířit 
+a díky tomu získávat více potencionálních přispěvatelů. Kromě sociálních sítí lze projekt šířit 
+pomocí emailových newsletterů nebo vlastní webovou prezentací. 
+Stejně jako klasických metod pro zahájení výroby, tak i typů crowdfundingu existuje více. Mezi 
+základní patří:
+\begin{itemize}
+\item Crowdfunding založený na darech - každá kampaň, ve které není finanční návratnost pro 
+investory
+\item Crowdfunding založený na odměnách - kampaň, která zahrnuje jednotlivce přispívající 
+na produkt výměnou za odměnu(výrobek nebo služba)
+\item Crowdfunding zaležený na vlastním kapitálu - kampaň, která umožňuje přispěvatelům aby 
+se stali součástí vlastníků společnosti
+\end{itemize}
+
+%popis navrhu GIS
+\kapitola{Návrh informačního systému}
+Před započetím samotné implementace by se měl sestavit návrh informačního systému, pro geografický 
+informační systém to platí také.
+
+\sekce{Případy užití}
+Use Case model je jedním z UML modelů. V překladu lze diagram označit jako diagram případů užití. 
+Jak již z názvu vyplývá, jedná se o popis chování systému z pohledů jeho uživatelů, proto je 
+vytvářen mezi prvními diagramy. Model samotný se skládá z několika entit, mezi které patří 
+actors(aktéři),  use case(případy užití) a vztahy mezi nimi. Definují se zde interakce mezi rolemi 
+a systémem, kde role nemusí být pouze uživatel jako člověk, ale také jiný systém.
+
+Jednotlivé připady užití mohou být složeny z více akcí vedoucích k dosažení požadovaného cíle. 
+Případ užití je vykreslován jako elipsa s názvem. Aktéři jsou zobrazeni jako jednoduché postavy, 
+které komunikují s případy užití. 
+
+\podsekce{Diagram případů užití}
+V diagramu jako jednotlivý aktéři operují běžní uživatelé, přihlášení uživatelé a administrátoři, 
+kteří s daným systémem komunikují. Příhlášení uživatelé a administrátoři se do systému musejí 
+nejprve přihlásit aby mohli dle svým pravomocí provádět dané činnosti. Běžní uživatelé pak mají 
+zpřístupnění základní funkcionalitu, kterou jako návštěvníci webové aplikace očekávají. Nepřihlášení 
+uživatelé mají možnost vyhledávání uložených informací, exportování seznamů rostlin, tisk mapy 
+a práce s mapou jako takovou, ve smyslu posouvání aktuálního zobrazení mapy, přibližování, změny 
+vrstvy, zobrazení detailních informací jednotlivých záznamů. Přihlášení uživatelé mají možnost 
+spravovat svoje uložená data a přidávat nové. Administrátoři májí možnosti stejné jako přihlášení 
+uživatelé, ke kterým mají možnost uživatele spravovat. 
+%*******obrázek use case*********
+\obrazek
+\vlozeps{use_case.png}{0.45}
+\endobr{Use Case.}
+
+%popis samotneho navrhu databaze
+\kapitola{Návrh databáze}
+Kompletní aplikace by měla být postavena na kvalitním databázovém návrhu. Návrh vychází 
+z bakalářské práce Geodatabáze pro GIS arboreta MENDELU. Databáze je hlavním základním 
+kamenem a bez její správné struktury by aplikace mohla být například pomalá nebo špatně udržitelná 
+vzhledem k uložení obsahu. Návrh, z kterého bylo vycházeno, obsahoval nedostatky, které bylo 
+nutné eliminovat. Prvním špatným aspektem bylo složité rozšíření jazykových mutací aplikace. 
+Původně se zamýšleli pouze dvě mutace(česká a slovenská) s uchováním latinského názvu roslin 
+a jejich hierarchické struktury. Moderní aplikace musí splňovat jazykovou rozšiřitelnost, proto 
+bylo nutné návrh upravit pro uvedené potřeby. Samotné názvy nejsou uchovávány přímo v tabulkách 
+rostlina, třída, atd., ale ve vazebních tabulkách spojující požadovanou tabulku(roslina, třída, 
+atd.) s tabulkou jazyk. Tabulka jazyk umožňuje uchovat jazyky, s kterými aplikace bude pracovat. 
+Po provedení výše popsaných změn je již jednodušší rozšířit aplikaci o další jazyk, samozřejmě 
+za předpokladu doplnění názvů všech uložených dat.
+
+%http://www.ibot.cas.cz/botanika/o-taxonomii-a-systematice.html
+Další problémovou částí návhru byla hierarchie zařazení roslin. Biologická klasifikace rostlin je 
+způsob, jakým se kategorizují rostliny. Věda zabávající se právě tříděním organismů je označována 
+jako taxonometrie, která kromě třídění zkoumá i vzájemné přibuznosti a podobnosti. V současnosti je 
+používán hierarchický systém založený na Linneově klasifikačním systému, který vytvořil švedský 
+biolog Carl Linné, považovaný za otce moderní biologie. Systém klasifikace, používaný v současné 
+době, je doplněn o nové poznatky a je univerzální pro všechny organismy. Jednotlivé organismy 
+vzájemně ražené do různých úrovní(říše, třída, řád, atd.) se nazývají taxony, kdy vyšší taxony 
+mohou obsahovat jeden, nebo více taxonů nižší úrovně. Jednotlivé taxonomické jednotky se nazývají:
+\begin{itemize}
+\item říše
+\item podříše
+\item oddělení
+\item třída
+\item podtřída
+\item řád
+\item podřád
+\item nadčeleď
+\item čeleď
+\item podčeleď
+\item rod
+\item podrod
+\item druh
+\item poddruh
+\item odrůda
+\end{itemize}
+\sekce{Popis tabulek}
+
+%*******Návrh databáze rostliny*********
+
+Z prvního požadavku je vytvořena tabulka \texttt{rostlina} :
+\paragraph{rostlina}
+\begin{itemize}
+\item Sloupce: gid\_rostlina (serial), id\_namereny\_bod (integer), nazev\_cz (varchar),
+nazev\_lat (varchar), nazev\_sk (varchar), id\_trida (integer), id\_celed (integer), id\_rad (integer),
+poznamka (text), identifikacni\_cislo (varchar), koruna (point)
+\item Primární klíč: gid\_rostlina
+\item Popis: Přiřazené informace k naměřenému bodu. Názvy rostliny se mohou vyskytnout v české, latinském 
+a~slovenském jazyce. Rostliny mají přiřazenou třídu, čeleď a řád, které jsou řešeny pomocí cizích klíčů.
+Sloupec \texttt{identifikacni\_cislo} je určen pro uložení čísla označujícího každou rostlinu. U~stromů, keřů a polokeřů
+je možné evidovat i šířku koruny, tento sloupec je nepovinný.
+\end{itemize}
+
+%*******obrázek databáze pro rostlinu*********
+\obrazek
+\vlozeps{arboretum3_schema_spodni.png}{0.45}
+\endobr{Část databáze pro rostlinu.}
+
+Číselníky pro všechny třídy, řády a čeledě:
+\paragraph{trida}
+\begin{itemize}
+\item Sloupce: id\_trida (serial), nazev\_cz (varchar), nazev\_lat (varchar), nazev\_sk (varchar)
+\item Primární klíč: id\_trida
+\item Popis: Přehled tříd s možností uložení ve 3 jazycích.
+\end{itemize}
+
+\newpage
+\paragraph{celed}
+\begin{itemize}
+\item Sloupce: id\_celed (serial), nazev\_cz (varchar), nazev\_lat (varchar), nazev\_sk (varchar)
+\item Primární klíč: id\_celed
+\item Popis: Přehled čeledí s možností uložení ve 3 jazycích.
+\end{itemize}
+
+\paragraph{rad}
+\begin{itemize}
+\item Sloupce: id\_rad (serial), nazev\_cz (varchar), nazev\_lat (varchar), nazev\_sk (varchar) 
+\item Primární klíč: id\_rad
+\item Popis: Přehled řádů s možností uložení ve 3 jazycích.
+\end{itemize}
+
+\newpage
+Tabulka \texttt{namereny\_bod} je určena pro uložení naměřených rostlin. Lze ji také vyžít jako vrstvu 
+(shapefile) pro měření v terénu.
+\paragraph{namereny\_bod}
+\begin{itemize}
+\item Sloupce: gid\_namereny\_bod (serial), nazev (varchar), geom (point)
+\item Primární klíč: gid\_namereny\_bod
+\item Popis: Sloupec \texttt{nazev} lze považovat za pracovní označení rostliny při měření v terénu
+\end{itemize}
+
+%*******Návrh databáze zbytek*********
+Návrh části databáze pro rostliny byl představen, nyní je potřeba představit zbylou část. Hlavní pozornost
+je zde věnována tabulce \texttt{objekt}, která shrnuje všechny objekty. 
+\paragraph{objekt}
+\begin{itemize}
+\item Sloupce: id\_objekt (serial), objekt (integer)
+\item Primární klíč: id\_objekt
+\item Popis: Hlavní účel tabulky slouží ke spojení fotek s objektem (budova, rostlina, ...). 
+Sloupec \texttt{objekt} je cizí klíč odkazující na tabulky: \texttt{znacka}, \texttt{cesta}, 
+\texttt{budova}, \texttt{vybaveni}. 
+\end{itemize}
+
+Uložení je cest je provedeno rovnou ve 3 tabulkách \texttt{cesta}, \texttt{cesta\_typ\_cesty} 
+a~\texttt{typ\_cesty}. Cesty mohou mít přiřazené typy, které ji definují (například: pěší, schody, průjezdná atd.)
+a umožňují ji ve výsledné mapě rozlišovat.
+\paragraph{cesta}
+\begin{itemize}
+\item Sloupce: gid\_cesta (serial), nazev (varchar), geom (multilinestring), popis (text)
+\item Primární klíč: id\_cesta
+\item Popis: Uložené cesty arboreta s názvem a popisem.
+\end{itemize}
+
+\paragraph{cesta\_typ\_cesty}
+\begin{itemize}
+\item Sloupce: id\_cesta\_typ\_cesty (serial), id\_cesta (integer), id\_typ\_cesty (integer), 
+nazev (varchar)
+\item Primární klíč: id\_cesta\_typ\_cesty
+\item Popis: Tabulka reprezentuje vztah M:N pro \texttt{cesta} a \texttt{typ\_cesty}. 
+Sloupec nazev není povinný a je určen k jednoznačnému rozpoznání části cesty.
+\end{itemize}
+
+\paragraph{typ\_cesty}
+\begin{itemize}
+\item Sloupce: id\_typ\_cesty (serial), nazev (varchar), oznaceni (varchar), popis (text)
+\item Primární klíč: id\_typ\_cesty
+\item Popis: Tabulka pro typy cest. Sloupec \texttt{oznaceni} je určen pro název nebo zkratku 
+symbolu, kterým bude typ cesty označen v mapě.
+\end{itemize}
+
+Další důležitou součástí arboreta MENDELU jsou bezesporu informační tabule.
+\paragraph{znacka}
+\begin{itemize}
+\item Sloupce: gid\_znacka (serial), nazev (varchar), hlavni\_cislo (integer), vedlejsi\_cislo(integer), 
+popis (varchar), geom (point)
+\item Primární klíč: gid\_znacka
+\item Popis: Uložené informační tabule v areálu. Obsahují hlavní číslo oblasti a vedlejší číslo, které 
+se nachází přímo na tabuly. Sloupec \texttt{poznamka} je určen pro případný popis oblasti.
+\end{itemize}
+
+Jeden z požadavků úvaděl potřebu evidence budov a ostatního vybavení arboreta.  Řešením jsou
+tabulky \texttt{budova}, \texttt{vybaveni} a \texttt{typ\_vybaveni}. Vybavením jsou myšleny
+všechny další důležité věci jako lavičky, vodovodní kohoutky, atd.
+\paragraph{budova}
+\begin{itemize}
+\item Sloupce: gid\_budova (serial), nazev (varchar), popis (text), geom (multipolygon)
+\item Primární klíč: gid\_budova
+\item Popis: Tabulka pro budovy arboreta, které se ukládájí jako polygony.
+\end{itemize}
+
+\paragraph{vybaveni}
+\begin{itemize}
+\item Sloupce: gid\_vybaveni (serial), id\_typy\_vybaveni (integer), popis (text),
+geom (point)
+\item Primární klíč: gid\_vybaveni
+\item Popis: Tabulka pro uložení ostatního vybavení arboreta.
+\end{itemize}
+
+\paragraph{typ\_vybaveni}
+\begin{itemize}
+\item Sloupce: id\_typ\_vybaveni (serial), nazev (varchar)
+\item Primární klíč: id\_typ\_vybaveni
+\item Popis: Přehled možných typů vybavení.
+\end{itemize}
+
+V dnešní době je téměr nemyslitelné zobrazovat data mapy bez reálné fotky určitého místa.
+Typickým příkladem využití fotek s mapami mohou být Google mapy, které umožňují sledovat fotky
+přiřazeném k místům nebo virtuální prohlídku místa, díky aplikaci Street View. Zde jsou fotky
+přiřazovány k objektům arboreta vztahem M:N, takže jedna fotka může mít jeden nebo více objektů 
+a~objekt může mít jednu nebo více fotek.
+
+\paragraph{fotka}
+\begin{itemize}
+\item Sloupce: id\_fotka (serial), url (varchar), popis (text)
+\item Primární klíč: id\_fotka
+\item Popis: Sloupec \texttt{url} slouží k uložení url
+\footnote{URL (Uniform Resource Locators) - Umístění webové stránky nebo souboru na internetu.} 
+adresy na serveru, na kterém jsou nahrané fotky.
+\end{itemize}
+
+\paragraph{objekt\_fotka}
+\begin{itemize}
+\item Sloupce: id\_objekt\_fotka (serial), id\_objekt (integer), id\_fotka (integer)
+\item Primární klíč: id\_objekt\_fotka
+\item Popis: Pomocná tabulka pro vazbu M:N mezi tabulkami \texttt{objekt} a \texttt{fotka}.
+\end{itemize}
+
+%*******obrazek navrh databaze horni******
+\obrazek
+\vlozeps{arboretum3_schema_horni.png}{0.4}
+\endobr{Návrh databáze.}
+\newpage
+
+\kapitola{Závěr}
+
+
+\begin{literatura}
+
+\citace{designing-geodatabases}{Arctur, 2004}{
+	\autor{ARCTUR, D. -- ZEILER, M} 
+	\nazev{Designing geodatabases: case studies in GISdata modeling.}
+	 Redlands: ESRI Press, 2004. 393 s. ISBN 1-58948-021-X}
+
+\citace{intro-gis}{}{
+	\autor{BERNHARDSEN, Tor} 
+	\nazev{Geographic information systems: an introduction.}
+	 3rd ed. New York: John Wiley, c2002, xiii, 428 s. ISBN 04-714-1968-0}
+
+\citace{boundless}{Boundless, 2013}{
+	\autor{BOUNDLESS} 
+	\nazev{Boundless : Spatial Database Tips and Tricks : Introduction.}
+	 Boundless, formerly OpenGeo [online]. 2013 [cit. 2014-05-02]. Dostupné z: http://workshops.boundlessgeo.com/postgis-spatialdbtips/introduction.html}
+
+\end{literatura}
+
+\prilohy
+
+\end{document}
