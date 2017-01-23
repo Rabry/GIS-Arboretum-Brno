@@ -214,7 +214,16 @@ vzhledem k uložení obsahu. Návrh, z kterého bylo vycházeno, obsahoval nedos
 nutné eliminovat. Prvním špatným aspektem bylo složité rozšíření jazykových mutací aplikace. 
 Původně se zamýšleli pouze dvě mutace(česká a slovenská) s uchováním latinského názvu roslin 
 a jejich hierarchické struktury. Moderní aplikace musí splňovat jazykovou rozšiřitelnost, proto 
-bylo nutné návrh upravit pro uvedené potřeby. Samotné názvy nejsou uchovávány přímo v tabulkách 
+bylo nutné návrh upravit pro uvedené potřeby. Existují čtyři populární způsoby návrhu databáze 
+pro více jazyčné webové stránky. Nejjednodušším řešením je již v návrhu použitá metoda sloupce, 
+kdy každý jazyk je uchován v jednom sloupci tabulky. Hlavními klady jsou jednoduchá implementace, 
+snadné provádění dotazů a neduplicitní obsah v rámci řádků(duplicitní data mohou vznikat 
+v sloupcích, tedy jednotlivých jazicích). Jak bylo řečeno dříve je metoda špatně rozšiřitelná 
+o nové jazykové mutace z pohledu zásahu do již fungujících databáze a jejích dat, jelikož uložených
+dat může být velké množství. Další možností je podobný způsob jako předchozí, ovšem s opačným 
+provedením. Místo uložení jazyků do sloupců se uchovají jazyky v řádcích, tedy původně jeden záznam 
+bude mít více záznamů.
+Samotné názvy nejsou uchovávány přímo v tabulkách 
 rostlina, třída, atd., ale ve vazebních tabulkách spojující požadovanou tabulku(roslina, třída, 
 atd.) s tabulkou jazyk. Tabulka jazyk umožňuje uchovat jazyky, s kterými aplikace bude pracovat. 
 Po provedení výše popsaných změn je již jednodušší rozšířit aplikaci o další jazyk, samozřejmě 
