@@ -141,7 +141,7 @@ Díky inicializaci je dosáhnuta vyšší kontrola nad mapou a daty. V rámci ko
 podpora editace. Leaflet nabízí méně funkcí, ale existuje mnoho plug-in\footnote{Plug-in je 
 zásuvný modul, který doplňuje aplikaci.}, které chybějící prvky doplní.
 
-\sekce{PHP Brick\textbackslash Geo}
+%\sekce{PHP Brick\textbackslash Geo}
 
 %popis crowdfundingu
 %https://www.fundable.com/learn/resources/guides/crowdfunding-guide/what-is-crowdfunding
@@ -205,6 +205,25 @@ uživatelé, ke kterým mají možnost uživatele spravovat.
 \vlozeps{use_case.png}{0.45}
 \endobr{Use Case.}
 
+\newpage
+\sekce{Mind mapa}
+Mind map neboli myšlenková mapa je grafický návrh klíčových akcí propojených vzájemnými vztahy. 
+Používá se ve fázi plánování, přemýšlení řešení problému, v této práci jak bude uživateli dovoleno 
+pracovat v systému. V grafu se začíná vždy hlavní myšlenkou, Zobrazení mapy, která vystihuje hlavní
+zobrazení aplikace. Kolem středobodu jsou tvořeny myšlenky vycházející z prvotní. Druhou větší 
+myšlenkou lze označit Seznam objektů zastávájící podobnou funci a význam, kdy se jedná o tabulkové 
+zobrazení všech uložených objektů. Seznam objektů je uveden celkem dvakrát, jednou v hlavní mapě 
+určené pro běžného uživatele aplikace, podruhé je hlavním myšlenkou po přihlášení autorizovaného 
+uživatele.
+%*******obrázek use case*********
+\obrazek
+\vlozeps{mind_map.png}{0.45}
+\endobr{Mind map.} 
+
+\newpage
+\sekce{Grafický návrh}
+
+
 %popis samotneho navrhu databaze
 \kapitola{Návrh databáze}
 Kompletní aplikace by měla být postavena na kvalitním databázovém návrhu. Návrh vychází 
@@ -213,21 +232,35 @@ kamenem a bez její správné struktury by aplikace mohla být například pomal
 vzhledem k uložení obsahu. Návrh, z kterého bylo vycházeno, obsahoval nedostatky, které bylo 
 nutné eliminovat. Prvním špatným aspektem bylo složité rozšíření jazykových mutací aplikace. 
 Původně se zamýšleli pouze dvě mutace(česká a slovenská) s uchováním latinského názvu roslin 
-a jejich hierarchické struktury. Moderní aplikace musí splňovat jazykovou rozšiřitelnost, proto 
-bylo nutné návrh upravit pro uvedené potřeby. Existují čtyři populární způsoby návrhu databáze 
-pro více jazyčné webové stránky. Nejjednodušším řešením je již v návrhu použitá metoda sloupce, 
+a jejich hierarchické struktury. 
+
+Moderní aplikace musí splňovat jazykovou rozšiřitelnost, proto 
+bylo nutné návrh upravit pro uvedené potřeby. Existují tři populární způsoby návrhu databáze 
+pro vícejazyčné webové stránky. Nejjednodušším řešením je již v původním návrhu použitá metoda sloupce, 
 kdy každý jazyk je uchován v jednom sloupci tabulky. Hlavními klady jsou jednoduchá implementace, 
 snadné provádění dotazů a neduplicitní obsah v rámci řádků(duplicitní data mohou vznikat 
-v sloupcích, tedy jednotlivých jazicích). Jak bylo řečeno dříve je metoda špatně rozšiřitelná 
-o nové jazykové mutace z pohledu zásahu do již fungujících databáze a jejích dat, jelikož uložených
-dat může být velké množství. Další možností je podobný způsob jako předchozí, ovšem s opačným 
+v sloupcích, tedy jednotlivých jazycích). Jak bylo řečeno dříve je metoda špatně rozšiřitelná 
+o nové jazykové mutace z pohledu zásahu do již fungující databáze a jejích dat, jelikož uložených
+informací může být velké množství. Další možností je podobný způsob jako předchozí, ovšem s opačným 
 provedením. Místo uložení jazyků do sloupců se uchovají jazyky v řádcích, tedy původně jeden záznam 
-bude mít více záznamů.
-Samotné názvy nejsou uchovávány přímo v tabulkách 
-rostlina, třída, atd., ale ve vazebních tabulkách spojující požadovanou tabulku(roslina, třída, 
-atd.) s tabulkou jazyk. Tabulka jazyk umožňuje uchovat jazyky, s kterými aplikace bude pracovat. 
-Po provedení výše popsaných změn je již jednodušší rozšířit aplikaci o další jazyk, samozřejmě 
-za předpokladu doplnění názvů všech uložených dat.
+bude mít více záznamů. Poslední metoda, která je použita v návrhu, používá doplňkovou tabulku, která 
+umožňuje shromáždit názvy v definovaných jazycích. Kladné vlastnosti převažují záporné, nejvíce lze
+vidět jednoduchou jazykovou rozšiřitelnost(nejsou nutné úpravy schématu) a jednoduché složení dotazů.
+Naopak hlavním negativem je možné zdojnásobení původních tabulek, protože se musejí vytvořit nové 
+pro každou tabulku s požadovaným přeloženým názvem. Samotné názvy tedy nejsou uchovávány přímo 
+v tabulkách rostlina, třída, atd., ale ve vazebních tabulkách spojující požadovanou tabulku
+(roslina, třída, atd.) s tabulkou jazyk. Tabulka jazyk umožňuje uchovat jazyky, s kterými aplikace 
+bude pracovat. Po provedení výše popsaných změn je již jednodušší rozšířit aplikaci o další jazyk, 
+samozřejmě za předpokladu doplnění názvů všech uložených dat. Bylo nutné navrhnout pomocné spojovací 
+tabulky s tabulkou jazyk, do které se přesunul sloupec \texttt{nazev} z požadovaných tabulek. 
+Dalšími změnami jsou nové sloupce \texttt{datum\_vlozeni} a \texttt{datum\_upraveni} pro přehlednost 
+manipulace s daty.
+
+%*******obrázek databáze pro objekty*********
+\obrazek
+\vlozeps{navrh_db_blank_horni.png}{0.30}
+\endobr{Část databáze pro objekty.}
+\newpage
 
 %http://www.ibot.cas.cz/botanika/o-taxonomii-a-systematice.html
 Další problémovou částí návhru byla hierarchie zařazení roslin. Biologická klasifikace rostlin je 
@@ -238,6 +271,7 @@ biolog Carl Linné, považovaný za otce moderní biologie. Systém klasifikace,
 době, je doplněn o nové poznatky a je univerzální pro všechny organismy. Jednotlivé organismy 
 vzájemně ražené do různých úrovní(říše, třída, řád, atd.) se nazývají taxony, kdy vyšší taxony 
 mohou obsahovat jeden, nebo více taxonů nižší úrovně. Jednotlivé taxonomické jednotky se nazývají:
+\newpage
 \begin{itemize}
 \item říše
 \item podříše
@@ -255,162 +289,35 @@ mohou obsahovat jeden, nebo více taxonů nižší úrovně. Jednotlivé taxonom
 \item poddruh
 \item odrůda
 \end{itemize}
-\sekce{Popis tabulek}
 
-%*******Návrh databáze rostliny*********
-
-Z prvního požadavku je vytvořena tabulka \texttt{rostlina} :
-\paragraph{rostlina}
-\begin{itemize}
-\item Sloupce: gid\_rostlina (serial), id\_namereny\_bod (integer), nazev\_cz (varchar),
-nazev\_lat (varchar), nazev\_sk (varchar), id\_trida (integer), id\_celed (integer), id\_rad (integer),
-poznamka (text), identifikacni\_cislo (varchar), koruna (point)
-\item Primární klíč: gid\_rostlina
-\item Popis: Přiřazené informace k naměřenému bodu. Názvy rostliny se mohou vyskytnout v české, latinském 
-a~slovenském jazyce. Rostliny mají přiřazenou třídu, čeleď a řád, které jsou řešeny pomocí cizích klíčů.
-Sloupec \texttt{identifikacni\_cislo} je určen pro uložení čísla označujícího každou rostlinu. U~stromů, keřů a polokeřů
-je možné evidovat i šířku koruny, tento sloupec je nepovinný.
-\end{itemize}
-
-%*******obrázek databáze pro rostlinu*********
+%*******obrázek databáze pro strukturu*********
 \obrazek
-\vlozeps{arboretum3_schema_spodni.png}{0.45}
-\endobr{Část databáze pro rostlinu.}
-
-Číselníky pro všechny třídy, řády a čeledě:
-\paragraph{trida}
-\begin{itemize}
-\item Sloupce: id\_trida (serial), nazev\_cz (varchar), nazev\_lat (varchar), nazev\_sk (varchar)
-\item Primární klíč: id\_trida
-\item Popis: Přehled tříd s možností uložení ve 3 jazycích.
-\end{itemize}
-
+\vlozeps{navrh_db_blank_spodni.png}{0.28}
+\endobr{Část databáze pro hierarchii.}
 \newpage
-\paragraph{celed}
-\begin{itemize}
-\item Sloupce: id\_celed (serial), nazev\_cz (varchar), nazev\_lat (varchar), nazev\_sk (varchar)
-\item Primární klíč: id\_celed
-\item Popis: Přehled čeledí s možností uložení ve 3 jazycích.
-\end{itemize}
 
-\paragraph{rad}
-\begin{itemize}
-\item Sloupce: id\_rad (serial), nazev\_cz (varchar), nazev\_lat (varchar), nazev\_sk (varchar) 
-\item Primární klíč: id\_rad
-\item Popis: Přehled řádů s možností uložení ve 3 jazycích.
-\end{itemize}
+Zásadní novou částí je oddělení administrace, proto bylo nutné navrhnout rozložení databáze pro 
+tento účel. Hlávními aktéry systému jsou příhlášení uživatelé, pro které je určena tabulka 
+\texttt{uzivatel}. Samotná tabulka k ovládání prostředí aplikace nestačí, uživatelé mohou mít 
+rozlišné pravomoce ve smyslu, že někteří mohou přidávat, upravovat a mazat položky, jiní mohou 
+pouze přidávat nové. Pravomoce jsou uchovány tabulkou skupina, kdy každý uživatel může mít jednu 
+nebo více skupin.
 
-\newpage
-Tabulka \texttt{namereny\_bod} je určena pro uložení naměřených rostlin. Lze ji také vyžít jako vrstvu 
-(shapefile) pro měření v terénu.
-\paragraph{namereny\_bod}
-\begin{itemize}
-\item Sloupce: gid\_namereny\_bod (serial), nazev (varchar), geom (point)
-\item Primární klíč: gid\_namereny\_bod
-\item Popis: Sloupec \texttt{nazev} lze považovat za pracovní označení rostliny při měření v terénu
-\end{itemize}
-
-%*******Návrh databáze zbytek*********
-Návrh části databáze pro rostliny byl představen, nyní je potřeba představit zbylou část. Hlavní pozornost
-je zde věnována tabulce \texttt{objekt}, která shrnuje všechny objekty. 
-\paragraph{objekt}
-\begin{itemize}
-\item Sloupce: id\_objekt (serial), objekt (integer)
-\item Primární klíč: id\_objekt
-\item Popis: Hlavní účel tabulky slouží ke spojení fotek s objektem (budova, rostlina, ...). 
-Sloupec \texttt{objekt} je cizí klíč odkazující na tabulky: \texttt{znacka}, \texttt{cesta}, 
-\texttt{budova}, \texttt{vybaveni}. 
-\end{itemize}
-
-Uložení je cest je provedeno rovnou ve 3 tabulkách \texttt{cesta}, \texttt{cesta\_typ\_cesty} 
-a~\texttt{typ\_cesty}. Cesty mohou mít přiřazené typy, které ji definují (například: pěší, schody, průjezdná atd.)
-a umožňují ji ve výsledné mapě rozlišovat.
-\paragraph{cesta}
-\begin{itemize}
-\item Sloupce: gid\_cesta (serial), nazev (varchar), geom (multilinestring), popis (text)
-\item Primární klíč: id\_cesta
-\item Popis: Uložené cesty arboreta s názvem a popisem.
-\end{itemize}
-
-\paragraph{cesta\_typ\_cesty}
-\begin{itemize}
-\item Sloupce: id\_cesta\_typ\_cesty (serial), id\_cesta (integer), id\_typ\_cesty (integer), 
-nazev (varchar)
-\item Primární klíč: id\_cesta\_typ\_cesty
-\item Popis: Tabulka reprezentuje vztah M:N pro \texttt{cesta} a \texttt{typ\_cesty}. 
-Sloupec nazev není povinný a je určen k jednoznačnému rozpoznání části cesty.
-\end{itemize}
-
-\paragraph{typ\_cesty}
-\begin{itemize}
-\item Sloupce: id\_typ\_cesty (serial), nazev (varchar), oznaceni (varchar), popis (text)
-\item Primární klíč: id\_typ\_cesty
-\item Popis: Tabulka pro typy cest. Sloupec \texttt{oznaceni} je určen pro název nebo zkratku 
-symbolu, kterým bude typ cesty označen v mapě.
-\end{itemize}
-
-Další důležitou součástí arboreta MENDELU jsou bezesporu informační tabule.
-\paragraph{znacka}
-\begin{itemize}
-\item Sloupce: gid\_znacka (serial), nazev (varchar), hlavni\_cislo (integer), vedlejsi\_cislo(integer), 
-popis (varchar), geom (point)
-\item Primární klíč: gid\_znacka
-\item Popis: Uložené informační tabule v areálu. Obsahují hlavní číslo oblasti a vedlejší číslo, které 
-se nachází přímo na tabuly. Sloupec \texttt{poznamka} je určen pro případný popis oblasti.
-\end{itemize}
-
-Jeden z požadavků úvaděl potřebu evidence budov a ostatního vybavení arboreta.  Řešením jsou
-tabulky \texttt{budova}, \texttt{vybaveni} a \texttt{typ\_vybaveni}. Vybavením jsou myšleny
-všechny další důležité věci jako lavičky, vodovodní kohoutky, atd.
-\paragraph{budova}
-\begin{itemize}
-\item Sloupce: gid\_budova (serial), nazev (varchar), popis (text), geom (multipolygon)
-\item Primární klíč: gid\_budova
-\item Popis: Tabulka pro budovy arboreta, které se ukládájí jako polygony.
-\end{itemize}
-
-\paragraph{vybaveni}
-\begin{itemize}
-\item Sloupce: gid\_vybaveni (serial), id\_typy\_vybaveni (integer), popis (text),
-geom (point)
-\item Primární klíč: gid\_vybaveni
-\item Popis: Tabulka pro uložení ostatního vybavení arboreta.
-\end{itemize}
-
-\paragraph{typ\_vybaveni}
-\begin{itemize}
-\item Sloupce: id\_typ\_vybaveni (serial), nazev (varchar)
-\item Primární klíč: id\_typ\_vybaveni
-\item Popis: Přehled možných typů vybavení.
-\end{itemize}
-
-V dnešní době je téměr nemyslitelné zobrazovat data mapy bez reálné fotky určitého místa.
-Typickým příkladem využití fotek s mapami mohou být Google mapy, které umožňují sledovat fotky
-přiřazeném k místům nebo virtuální prohlídku místa, díky aplikaci Street View. Zde jsou fotky
-přiřazovány k objektům arboreta vztahem M:N, takže jedna fotka může mít jeden nebo více objektů 
-a~objekt může mít jednu nebo více fotek.
-
-\paragraph{fotka}
-\begin{itemize}
-\item Sloupce: id\_fotka (serial), url (varchar), popis (text)
-\item Primární klíč: id\_fotka
-\item Popis: Sloupec \texttt{url} slouží k uložení url
-\footnote{URL (Uniform Resource Locators) - Umístění webové stránky nebo souboru na internetu.} 
-adresy na serveru, na kterém jsou nahrané fotky.
-\end{itemize}
-
-\paragraph{objekt\_fotka}
-\begin{itemize}
-\item Sloupce: id\_objekt\_fotka (serial), id\_objekt (integer), id\_fotka (integer)
-\item Primární klíč: id\_objekt\_fotka
-\item Popis: Pomocná tabulka pro vazbu M:N mezi tabulkami \texttt{objekt} a \texttt{fotka}.
-\end{itemize}
-
-%*******obrazek navrh databaze horni******
+%*******obrázek databáze pro administraci*********
 \obrazek
-\vlozeps{arboretum3_schema_horni.png}{0.4}
-\endobr{Návrh databáze.}
-\newpage
+\vlozeps{navrh_db_blank_admin.png}{0.28}
+\endobr{Část databáze pro administraci.}
+
+
+\kapitola{Praktická část}
+\sekce{Modulový systém - OPP}
+\sekce{Zabezpečení}
+\sekce{Administrace}
+\sekce{Mapa}
+\sekce{Používání}
+	\podsekce{Funkce pro GPS - mobil}
+	\podsekce{Zadávání dat}
+	\podsekce{Řešené problémy}
 
 \kapitola{Závěr}
 
