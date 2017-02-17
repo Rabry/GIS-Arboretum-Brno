@@ -53,9 +53,30 @@ Brno: MENDELU, 2016}
 
 \kapitola{Úvod a~cíl práce}
 \sekce{Úvod}
-
+Geografický informační systém umožňuje zobrazovaní a manipulaci s prostorovými daty. Zachycuje 
+reálný svět s údaji o poloze jednotlivých částí našeho okolí. Poloha samotná nestačí, pro úplnou 
+definici objektu, musejí se uchovat i ostatní jeho informace. Objekty reálného světa se navzájem 
+ovlivňují, mají určitou vzdálenost mezi sebou a proto GIS slouží v mnoha lidských činnostech. Každý
+člověk pravděpodobně nejméně jednou použil určitou GIS aplikaci k nalezení hledaného místa, 
+navigování k danému místu nebo například k získání informací. Všechna funkcionalita funguje hlavně 
+díky možnostem provádění prostorových analýz nad prostorovými daty. Data samotná nemohou reagovat 
+na dotazy uživatelů. K těmto účelům se používají geodatabáze, které mohou být pouhou nádstavbou 
+relační databáze. Velmi důležitou částí se tak stává návrh struktury databáze. V práci bude popsán 
+návrh s odůvodněními. Jen návrh databáze nestačí ke kompletnímu návrhu informačního systému. Před 
+implementací existují další fáze vývoje, kdy se například musí zjistit požadavky uživatelů, vytvořit
+vzhled a umístění prvků rozhraní aplikace.
 
 \sekce{Cíl práce}
+Cílem práce je vytvoření geografického informačního systému arboreta mendelu. Základní prvky 
+vycházejí z bakalářské práce, která popisuje tvorbu geodatábaze a jednoduché zobrazení dat. 
+Vytvoření vyžaduje prostudování dostupných softwarových prostředků, které lze použít. Výběr 
+nejlepšího řešení s ohledem na minimalizaci nákladů pro tvorbu. Celkový informační systém potřebuje 
+i další prvky, mezi které patří například administrační část nebo uživatelsky přívětivé rozhraní. 
+Nejdříve bude nutné prozkoumat požadavky na samotný systém, jaká funkcionalita má být implementována, 
+co je nutné uchovat za informace atd. Předchozí posbírané data poslouží k tvorbě návrhu aplikace 
+před samotnou implementací. Druhým důležitým cílem je vytvoření dokumentace s podrobným popisem 
+reálných situací při práci se systémem. Mezi situace se zařadí manipulace s mapou, manipulace s daty 
+ve smyslu přidávání, oprav, mazání.
 
 %predstaveni dostupneho sw
 \kapitola{Dostupný software}
@@ -222,6 +243,54 @@ uživatele.
 
 \newpage
 \sekce{Grafický návrh}
+Všechny druhy aplikací se neobejdou bez dobře navrženého rozhraní, vzhled prodává a je prvním co 
+uživatele zaujme. Aktuální webové stránky by měla být univerzální, z pohledu možnosti zobrazení, 
+protože existuje velké množství přístrojů, které lze použít k jejich prohlížení, mezi které patří 
+například chytrý mobilní telefon, tablet, stolní počítač. Obor zabývající se grafickým návrhem lze 
+označit jako webdesign, zahrnující různé disciplíny a obory z oblasti tvorby webových stránek. 
+Obvykle se termín webdesign používá k označení popisu procesu tvorby front-end části aplikace, 
+protože z části zasahuje do webového inženýrství v šurším rámci vývoje. Historicky se webové stránky
+vyskytovaly nejdříve pouze ve formě textu, tehdejší prohlížeče neměli integrovaný přístup k obrázkům
+a jiným grafickým prvkům. V rámci zlepšování hardwaru a všudepřítomných konkurenčních bojů došlo 
+k vývoji nových technogolií, zejména kaskádových stylů(CSS), nových možností pomocí značkovacího 
+jazyka HTML, nebo JavaScriptu. Rozšíření internetu a jeho každodenní používání mělo za následky 
+vytvoření nových standartů pro HTML(HTML5) a CSS(CSS3), které přinesly zcela nové možnosti nebo
+nahrazení a vylepšení již existujících.
+GIS arboreta jakožto webové stránky je typem aplikace s jedním oknem měnícím svůj obsah. Uvedený typ
+je v dnešná době obvyklý a uživatelé jsou na něj zvyklí. Nejvíce používaným zařízením pro zobrazení 
+aplikace bude s největší pravděpodobností chytrý mobilní telefon, nebo tablet. Běžní uživatelé jej 
+využijí k prohlížení informací přimo u rostliny, u které se nacházejí. Stejně tak bude možno 
+i zadávat data, přesně zaměřená dle aktuálního místa. Vzor One-Window Drilldown, řešící strukturu, 
+vychází ze zobrazení v jednom okně, které přesně odpovídá požadavkům. Vzor zobrazuje aplikaci 
+v celém okně pokaždé i po vykonání určité činnosti uživatele.
+\sekce{Návrh jednotlivých sekcí}
+Prvním návrhem je úvodní obrazovka, která obsahuje především zobrazení mapy. Manipulace s mapou 
+vyžaduje alespoň základní ikony pro ovládání vzdálenosti, aktuální pozice a možnost změnit 
+podkladovou vrstvu. Přihlášení uživatelé mají možnost pomocí tlačítka se symbolem plus přidávat nové 
+body. Všechny ovládací prvky jsou situovány do pravé strany obrazovky, protože nejvíce přístupů bude 
+pravděpodobně z mobilních telefonů a větší část jsou praváci, tedy používající zejména pravou ruku.
+Dalším prvkem je umístění ikony pro zobrazení menu v levém horním rohu označeném třemi vodorovnými
+rovnoběžnými čárkami.
+
+\obrazek
+\vlozeps{graficky_navrh_1.png}{0.30}
+\endobr{Úvodní obrazovka.}
+
+Menu bude obsahovat položky pro přihlášení, písemný seznam rostlin atd. Rozbalením se položky 
+zobrazí a následným kliknutím na ikonu se zabalí. Pravý panel k ovládání mapy bude možno skrýt. 
+Skrtí se provede automaticky po pohybu v mapě a zobrazí se tlačítko pro jeho opětovné zobrazení. 
+Dalším důležitým prvkem návrhu je zobrazení rychlého detailu vybraného bodu. Po kliknutí na objekt 
+bude objekt zvýrazněn a také se v levém spodním rohu objeví čtverec s rychlým náhledem detailu 
+a možností prokliku do celkového detailu mimo zobrazení mapy.
+
+\obrazek
+\vlozeps{graficky_navrh_2.png}{0.30}
+\endobr{Úvodní obrazovka.}
+
+\obrazek
+\vlozeps{graficky_navrh_3.png}{0.30}
+\endobr{Úvodní obrazovka.}
+
 
 
 %popis samotneho navrhu databaze
