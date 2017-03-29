@@ -11,7 +11,7 @@
 %brava pro pozadi boxu urceneho pro prikazy
 \definecolor{light-gray}{gray}{0.95}
 
-\def\,{\penalty10000\hskip.25em}
+%\def\,{\penalty10000\hskip.25em}
 \pagestyle{headings}
 
 \cislovat{2}
@@ -218,15 +218,18 @@ nejprve přihlásit aby mohli dle svým pravomocí provádět dané činnosti. B
 zpřístupnění základní funkcionalitu, kterou jako návštěvníci webové aplikace očekávají. Nepřihlášení 
 uživatelé mají možnost vyhledávání uložených informací, exportování seznamů rostlin, tisk mapy 
 a práce s mapou jako takovou, ve smyslu posouvání aktuálního zobrazení mapy, přibližování, změny 
-vrstvy, zobrazení detailních informací jednotlivých záznamů. Přihlášení uživatelé mají možnost 
+vrstvy, zobrazení detailních informací jednotlivých záznamů. Důležitou možností pro obyčejné 
+uživatele je odeslání návrhu k případně změně uložené položky. Přihlášení uživatelé mají možnost 
 spravovat svoje uložená data a přidávat nové. Administrátoři májí možnosti stejné jako přihlášení 
 uživatelé, ke kterým mají možnost uživatele spravovat. 
 %*******obrázek use case*********
+
+\newpage
 \obrazek
 \vlozeps{use_case.png}{0.45}
 \endobr{Use Case.}
-
 \newpage
+
 \sekce{Mind mapa}
 Mind map neboli myšlenková mapa je grafický návrh klíčových akcí propojených vzájemnými vztahy. 
 Používá se ve fázi plánování, přemýšlení řešení problému, v této práci jak bude uživateli dovoleno 
@@ -272,26 +275,56 @@ pravděpodobně z mobilních telefonů a větší část jsou praváci, tedy pou
 Dalším prvkem je umístění ikony pro zobrazení menu v levém horním rohu označeném třemi vodorovnými
 rovnoběžnými čárkami.
 
+\newpage
 \obrazek
-\vlozeps{graficky_navrh_1.png}{0.30}
+\vlozeps{graficky_navrh_1.png}{0.40}
 \endobr{Úvodní obrazovka.}
 
 Menu bude obsahovat položky pro přihlášení, písemný seznam rostlin atd. Rozbalením se položky 
 zobrazí a následným kliknutím na ikonu se zabalí. Pravý panel k ovládání mapy bude možno skrýt. 
-Skrtí se provede automaticky po pohybu v mapě a zobrazí se tlačítko pro jeho opětovné zobrazení. 
+Skrytí se provede automaticky po pohybu v mapě a zobrazí se tlačítko pro jeho opětovné zobrazení. 
 Dalším důležitým prvkem návrhu je zobrazení rychlého detailu vybraného bodu. Po kliknutí na objekt 
 bude objekt zvýrazněn a také se v levém spodním rohu objeví čtverec s rychlým náhledem detailu 
 a možností prokliku do celkového detailu mimo zobrazení mapy.
 
+\newpage
 \obrazek
-\vlozeps{graficky_navrh_2.png}{0.30}
-\endobr{Úvodní obrazovka.}
+\vlozeps{graficky_navrh_2.png}{0.40}
+\endobr{Zobrazení menu.}
 
 \obrazek
-\vlozeps{graficky_navrh_3.png}{0.30}
-\endobr{Úvodní obrazovka.}
+\vlozeps{graficky_navrh_3.png}{0.40}
+\endobr{Rychlý detail.}
+\newpage
 
+Významnou částí aplikace je textový seznam všech rostlin. Rostlina může mít uchovano mnoho
+informací, proto v celkovém výpise jsou zobrazeny jen základní údaje a následně po kliknutí 
+na zobrazení detailu, obrázek lupy, jsou viditelné všechny údaje. Viditelný bude název, řád, čeleď, 
+rod a ikony pro zobrazení na mapě, odeslání návrhu na změnu, úpravu a smazání. Všechno bude 
+zobrazeno dle příslušných pravomocí. Nad tabulkou bude k dispozici filtrační část, skládající se 
+z možnosti vyhledávání dle názvu, výběru řádu, čeledi a rodu. Možnostech výběrů se bude zobrazovat 
+ikona pro možnost resetování filtru, tedy vynulování parametrů. Jako první na řádku bude k dispozici 
+ikona pro tvorbu exportů, dle zvolených parametrů, tedy přesně to co bude zobrazeno ve výpise. 
+Některé údaje budou viditelné pouze pro oprávněné uživatele, jako například ikona s možností úpravy, 
+smazání atd.
 
+\newpage
+\obrazek
+\vlozeps{graficky_navrh_4.png}{0.40}
+\endobr{Seznam rostlin.}
+
+Detail rostliny bude obsahovat všechny informace včetně hierarchie zařazení rostliny, 
+identifikačního čísla v rámci arboreta, poznámky a další. V pravé části obrazovky budou umístěny 
+administrační ikony, stejně jako jiné ovládáví prvky situované na pravé straně. Předpoklady úprav 
+položek přímo v terénu jsou méně pravděpodobné než následné úpravy v pohodlí domova, přeci jen 
+obyčejný uživatel zná označení rostliny tulipán, ale nezná její druhové jméno, řád pod který spadá 
+atd. Ovšem návrh, zobrazení na mapě budou využívány nejspíše přímo při návštěvě arboreta. Pod 
+výpisem informací budou zobrazeny nahrané fotky, které se po kliknutí zvětší a umožní prohlížení 
+celé galerie.
+
+\obrazek
+\vlozeps{graficky_navrh_5.png}{0.40}
+\endobr{Kompletní detail.}
 
 %popis samotneho navrhu databaze
 \kapitola{Návrh databáze}
@@ -361,9 +394,8 @@ mohou obsahovat jeden, nebo více taxonů nižší úrovně. Jednotlivé taxonom
 
 %*******obrázek databáze pro strukturu*********
 \obrazek
-\vlozeps{navrh_db_blank_spodni.png}{0.28}
+\vlozeps{navrh_db_blank_spodni.png}{0.20}
 \endobr{Část databáze pro hierarchii.}
-\newpage
 
 Zásadní novou částí je oddělení administrace, proto bylo nutné navrhnout rozložení databáze pro 
 tento účel. Hlávními aktéry systému jsou příhlášení uživatelé, pro které je určena tabulka 
